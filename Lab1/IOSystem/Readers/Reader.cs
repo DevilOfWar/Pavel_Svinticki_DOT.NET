@@ -81,6 +81,7 @@ namespace Lab1
                                 }
                                 else
                                 {
+                                    newStudent.Marks = new List<double>();
                                     for (int indexList = 3; indexList < strList.Count() && !errorFlag; indexList++)
                                     {
                                         if (ValidatorInputField.ValidateType(strList[indexList], false) == 0)

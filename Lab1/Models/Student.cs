@@ -20,6 +20,16 @@ namespace Lab1
         public List<double> Marks { get; set; }
 
         [DataMember]
-        public double AverageMark => Marks.Average();
+        public double AverageMark
+        {
+            get
+            {
+                return Marks.Average();
+            }
+            set
+            {
+                AverageMark = Marks.Average();
+            }
+        }
     }
 }

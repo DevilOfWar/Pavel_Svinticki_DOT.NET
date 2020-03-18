@@ -1,16 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace Lab1
 {
+    [DataContract]
     public class Subjects
     {
+        [DataMember]
         public const string _name = "Средний балл по предметам";
+
+        [DataMember]
         public List<double> AverageSubjectMarks { get; set; }
+
+        [DataMember]
         public string AverageMark { get; set; }
+
         public Subjects(List<Student> studentList)
         {
             AverageSubjectMarks = new List<double>();
@@ -34,9 +39,10 @@ namespace Lab1
                 count++;
             }
             index = 0;
-            foreach (double mark in AverageSubjectMarks)
+            while (index < AverageSubjectMarks.Count())
             {
                 AverageSubjectMarks[index] /= count;
+                index++;
             }
             AverageMark = "Средняя успеваемость: " + AverageSubjectMarks.Average();
         }
