@@ -17,7 +17,9 @@ namespace Lab1
         public string OutputFileFormat { get; set; }
         public Options()
         {
-
+            InputFile = @"...\File.csv";
+            OutputFile = @"...\File.xlsx";
+            OutputFileFormat = @"Excel";
         }
         public Options(string inputFile, string outputFile, string outputFileFormat)
         {
