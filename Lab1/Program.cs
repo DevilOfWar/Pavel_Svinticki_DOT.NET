@@ -1,90 +1,50 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using CommandLine;
 
 namespace Lab1
 {
     class Program
     {
         static void Main(string[] args)
-        {
-            string inputFile = "";
-            string outputFile = "";
-            string outputFileFormat = "";
-            bool inputFileFlag = false;
-            bool outputFileFlag = false;
-            bool outputFormatFlag = false;
-            foreach (string line in args)
+        {            
+            Options options = new Options();
+            Parser.Default.ParseArguments<Options>(args).WithParsed((Options parsedOptions) => { options = parsedOptions; });
+            if (options.InputFile.Equals(""))
             {
-                if (line.Equals("-inputFile"))
-                {
-                    inputFileFlag = true;
-                    outputFileFlag = false;
-                    outputFormatFlag = false;
-                }
-                else if (line.Equals("-outputFile"))
-                {
-                    inputFileFlag = false;
-                    outputFileFlag = true;
-                    outputFormatFlag = false;
-                }
-                else if (line.Equals("-outputFormat"))
-                {
-                    inputFileFlag = false;
-                    outputFileFlag = false;
-                    outputFormatFlag = true;
-                }
-                else if (inputFileFlag)
-                {
-                    inputFile = line;
-                    inputFileFlag = false;
-                }
-                else if (outputFileFlag)
-                {
-                    outputFile = line;
-                    outputFileFlag = false;
-                }
-                else if (outputFormatFlag)
-                {
-                    outputFileFormat = line;
-                    outputFormatFlag = false;
-                }
+                options.InputFile = @"...\File.csv";
             }
-            if (inputFile.Equals(""))
+            if (options.OutputFile.Equals(""))
             {
-                inputFile = @"...\File.csv";
+                options.OutputFile = @"...\File_out";
             }
-            if (outputFile.Equals(""))
+            if (options.OutputFileFormat.Equals(""))
             {
-                outputFile = @"...\File_out";
+                options.OutputFileFormat = "Excel";
             }
-            if (outputFileFormat.Equals(""))
+            if (!options.OutputFile.EndsWith(".xlsx") && options.OutputFileFormat.Equals("Excel"))
             {
-                outputFileFormat = "Excel";
+                options.OutputFile += ".xlsx";
             }
-            if (!outputFile.EndsWith(".xlsx") && outputFileFormat.Equals("Excel"))
+            else if (!options.OutputFile.EndsWith(options.OutputFileFormat.ToLower()))
             {
-                outputFile += ".xlsx";
+                options.OutputFile += "." + options.OutputFileFormat.ToLower();
             }
-            else if (!outputFile.EndsWith(outputFileFormat.ToLower()))
-            {
-                outputFile += "." + outputFileFormat.ToLower();
-            }
-            string validationResult = ValidationProgramArguments.Validation(inputFile, outputFile, outputFileFormat);
+            string validationResult = ValidationProgramArguments.Validation(options);
             if (validationResult.Equals(""))
             {
                 List<string> strList = new List<string>();
-                List<Student> file = Reader.ReadFile(inputFile, out strList);
+                List<Student> file = Reader.ReadFile(options.InputFile, out strList);
                 if (file != null && file.Count != 0)
                 {
-                    if (outputFileFormat.Equals("JSON"))
+                    if (options.OutputFileFormat.Equals("JSON"))
                     {
                         WriterJSON writer = new WriterJSON();
-                        writer.Write(file, strList, outputFile);
+                        writer.Write(file, strList, options.OutputFile);
                     }
-                    else if (outputFileFormat.Equals("Excel"))
+                    else if (options.OutputFileFormat.Equals("Excel"))
                     {
                         WriterExcel writer = new WriterExcel();
-                        writer.Write(file, strList, outputFile);
+                        writer.Write(file, strList, options.OutputFile);
                     }
                     else
                     {
