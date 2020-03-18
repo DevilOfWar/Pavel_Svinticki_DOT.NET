@@ -4,7 +4,7 @@ using OfficeOpenXml;
 
 namespace Lab1
 {
-    public class WriterExcel : Writer
+    public class WriterExcel : IWriter
     {        
         public WriterExcel() : base()
         {
@@ -27,11 +27,11 @@ namespace Lab1
             foreach (Student student in list)
             {
                 indexColumn = 1;
-                workSheet.Cells[indexLine, indexColumn].Value = student.SecondName;
+                workSheet.Cells[indexLine, indexColumn].Value = student.SurName;
                 indexColumn++;
                 workSheet.Cells[indexLine, indexColumn].Value = student.Name;
                 indexColumn++;
-                workSheet.Cells[indexLine, indexColumn].Value = student.NameByFather;
+                workSheet.Cells[indexLine, indexColumn].Value = student.MiddleName;
                 indexColumn++;
                 foreach (double mark in student.Marks)
                 {

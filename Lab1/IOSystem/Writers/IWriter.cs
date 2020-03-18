@@ -2,7 +2,7 @@
 
 namespace Lab1
 {
-    interface Writer
+    interface IWriter
     {
         void Write(List<Student> list, List<string> columnName, string file);
     }

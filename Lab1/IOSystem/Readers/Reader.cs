@@ -57,7 +57,7 @@ namespace Lab1
                                 }
                                 if (ValidatorInputField.ValidateType(strList[0], true) == 0)
                                 {
-                                    newStudent.SecondName = strList[0];
+                                    newStudent.SurName = strList[0];
                                 }
                                 else
                                 {
@@ -65,7 +65,7 @@ namespace Lab1
                                 }
                                 if (ValidatorInputField.ValidateType(strList[2], true) == 0)
                                 {
-                                    newStudent.NameByFather = strList[2];
+                                    newStudent.MiddleName = strList[2];
                                 }
                                 else
                                 {

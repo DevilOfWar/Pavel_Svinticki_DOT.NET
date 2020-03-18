@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Lab1
 {
-    public class WriterJSON : Writer
+    public class WriterJSON : IWriter
     {
         public void Write(List<Student> list, List<string> columnName, string file)
         {            

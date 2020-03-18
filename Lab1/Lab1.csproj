@@ -79,7 +79,7 @@
     <Compile Include="Validation\ValidationInput.cs" />
     <Compile Include="Validation\ValidationProgramArguments.cs" />
     <Compile Include="Validation\ValidatorInputField.cs" />
-    <Compile Include="IOSystem\Writers\Writer.cs" />
+    <Compile Include="IOSystem\Writers\IWriter.cs" />
     <Compile Include="IOSystem\Writers\WriterExcel.cs" />
     <Compile Include="IOSystem\Writers\WriterJSON.cs" />
   </ItemGroup>

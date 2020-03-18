@@ -11,10 +11,10 @@ namespace Lab1
         public string Name { get; set; }
 
         [DataMember]
-        public string SecondName { get; set; }
+        public string SurName { get; set; }
 
         [DataMember]
-        public string NameByFather { get; set; }
+        public string MiddleName { get; set; }
 
         [DataMember]
         public List<double> Marks { get; set; }
