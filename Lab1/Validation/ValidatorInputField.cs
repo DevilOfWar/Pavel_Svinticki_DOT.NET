@@ -25,6 +25,10 @@ namespace Lab1
                         throw new Exception(" marks must be a positive integer.");
                     }
                 }
+                if (obj == "" || obj == null)
+                {
+                    throw new Exception(" marks can't be emtry");
+                }
             }
         }
     }

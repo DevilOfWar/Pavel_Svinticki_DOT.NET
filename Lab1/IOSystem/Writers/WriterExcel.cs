@@ -51,6 +51,9 @@ namespace Lab1
             }
             workSheet.Cells[indexLine, indexColumn].Value = AverageSubject.AverageMark;
             excel.SaveAs(new FileInfo(file));
+            workSheet.Dispose();
+            workBook.Dispose();
+            excel.Dispose();
         }
     }
 }

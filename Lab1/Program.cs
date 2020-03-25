@@ -58,12 +58,12 @@ namespace Lab1
                 }
                 else
                 {
-                    throw new Exception("File don't have any correct line");
+                    throw new Exception("File don't have any correct line.");
                 }
             }
             catch (Exception ex)
             {
-                Logger.Log(ex.Message);
+                Logger.Log(options.InputFile + ". " + ex.Message);
             }
         }
     }
