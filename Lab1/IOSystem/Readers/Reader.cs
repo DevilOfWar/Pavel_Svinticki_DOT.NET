@@ -14,7 +14,6 @@ namespace Lab1
             {
                 using (StreamReader streamReader = new StreamReader(fileName))
                 {
-                    int markCount = 0;
                     List<Student> list = new List<Student>();
                     bool firstString = true;
                     int index = 1;
@@ -24,21 +23,13 @@ namespace Lab1
                         List<string> strList = str.Split(new char[]{ ',', ';'}).ToList();
                         if (firstString)
                         {
-                            if (ValidationInput.Validate(str) == 0)
+                            try
                             {
-                                firstString = false;
-                                columnName = strList;
-                                markCount = strList.Count() - 3;
+                                ValidationInput.Validate(str);
                             }
-                            else if (ValidationInput.Validate(str) == 1)
+                            catch (Exception ex)
                             {
-                                Logger.Log(fileName + " not enouch columns");
-                                return null;
-                            }
-                            else
-                            {
-                                Logger.Log(fileName + "Wrong name of first 3 columns");
-                                return null;
+                                Logger.Log(fileName + ex.Message);
                             }
                         }
                         else
@@ -47,60 +38,36 @@ namespace Lab1
                             if (strList.Count() >= 3)
                             {
                                 bool errorFlag = false;
-                                if (ValidatorInputField.ValidateType(strList[1], true) == 0)
+                                try
                                 {
+                                    ValidatorInputField.ValidateType(strList[1], true);
                                     newStudent.Name = strList[1];
-                                }
-                                else
-                                {
-                                    errorFlag = true;
-                                }
-                                if (ValidatorInputField.ValidateType(strList[0], true) == 0)
-                                {
+                                    ValidatorInputField.ValidateType(strList[0], true);
                                     newStudent.SurName = strList[0];
-                                }
-                                else
-                                {
-                                    errorFlag = true;
-                                }
-                                if (ValidatorInputField.ValidateType(strList[2], true) == 0)
-                                {
+                                    ValidatorInputField.ValidateType(strList[2], true);                                    
                                     newStudent.MiddleName = strList[2];
-                                }
-                                else
-                                {
-                                    errorFlag = true;
-                                }
-                                if (strList.Count() > columnName.Count())
-                                {
-                                    Logger.Log(fileName + " " + index + " line have too many marks.");
-                                }
-                                else if (strList.Count() < columnName.Count())
-                                {
-                                    Logger.Log(fileName + " " + index + " line have too low marks.");
-                                }
-                                else
-                                {
-                                    newStudent.Marks = new List<double>();
-                                    for (int indexList = 3; indexList < strList.Count() && !errorFlag; indexList++)
+                                    if (strList.Count() > columnName.Count())
                                     {
-                                        if (ValidatorInputField.ValidateType(strList[indexList], false) == 0)
-                                        {
-                                            newStudent.Marks.Add(Convert.ToInt16(strList[indexList]));
-                                        }
-                                        else
-                                        {
-                                            errorFlag = true;
-                                        }
+                                        throw new Exception(" " + index + " line have too many marks.");
                                     }
-                                    if (!errorFlag)
+                                    else if (strList.Count() < columnName.Count())
                                     {
-                                        list.Add(newStudent);
+                                        throw new Exception(" " + index + " line have too low marks.");
                                     }
                                     else
                                     {
-                                        Logger.Log(fileName + " " + index + " line have wrong format of data");
+                                        newStudent.Marks = new List<double>();
+                                        for (int indexList = 3; indexList < strList.Count() && !errorFlag; indexList++)
+                                        {
+                                            ValidatorInputField.ValidateType(strList[indexList], false);
+                                            newStudent.Marks.Add(Convert.ToInt16(strList[indexList]));                                            
+                                        }
+                                        list.Add(newStudent);
                                     }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Logger.Log(fileName + " " + index + ex.Message);
                                 }
                             }
                             else

@@ -1,22 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Lab1
 {
     public class ValidationInput
     {
-        static public int Validate(string obj)
+        static public void Validate(string obj)
         {
             List<string> list = obj.Split(',').ToList();
             if (list.Count() < 3)
             {
-                return 1;
+                throw new Exception(" not enouch columns");
             }
             if ((!list[0].Equals("Фамилия") || !list[1].Equals("Имя") || !list[2].Equals("Отчество")) && (!list[0].Equals("Surname") || !list[1].Equals("Name") || !list[2].Equals("Middle Name")))
             {
-                return 2;
+                throw new Exception(" Wrong name of first 3 columns");
             }
-            return 0;
         }
     }
 }

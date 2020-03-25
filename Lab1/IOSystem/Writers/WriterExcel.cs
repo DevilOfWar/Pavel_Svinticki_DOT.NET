@@ -5,7 +5,7 @@ using OfficeOpenXml;
 namespace Lab1
 {
     public class WriterExcel : IWriter
-    {        
+    {
         public WriterExcel() : base()
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;

@@ -1,25 +1,24 @@
 ﻿using System.IO;
+using System;
 
 namespace Lab1
 {
     public static class ValidationProgramArguments
     {
-        public static string Validation(Options options)
-        {
-            string message = "";            
+        public static void Validation(Options options)
+        {           
             if (!options.InputFile.EndsWith(".csv"))
             {
-                message = "Wrong format of input file";
+                throw new Exception("Wrong format of input file");
             }
             else if (!options.OutputFileFormat.Equals("JSON") && !options.OutputFileFormat.Equals("Excel"))
             {
-                message = "Wrong format of output file";
+                throw new Exception("Wrong format of output file");
             }
             else if (!File.Exists(options.InputFile))
             {
-                message = "Input file not exist";
+                throw new Exception("Input file not exist");
             }
-            return message;
         }
     }
 }

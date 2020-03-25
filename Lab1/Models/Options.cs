@@ -14,18 +14,6 @@ namespace Lab1
         [Option('o', "outputFile", Required = true, HelpText = "Path to output file. Not require format in name.")]
         public string OutputFile { get; set; }
         [Option('f', "outputFileFormat", Required = false, HelpText = "Format of output file. Default JSON.")]
-        public string OutputFileFormat { get; set; }
-        public Options()
-        {
-            InputFile = @"...\File.csv";
-            OutputFile = @"...\File.xlsx";
-            OutputFileFormat = @"Excel";
-        }
-        public Options(string inputFile, string outputFile, string outputFileFormat)
-        {
-            InputFile = inputFile;
-            OutputFile = outputFile;
-            OutputFileFormat = outputFileFormat;
-        }
+        public string OutputFileFormat { get; set; } = "Excel";
     }
 }

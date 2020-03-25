@@ -1,28 +1,31 @@
-﻿namespace Lab1
+﻿using System;
+
+namespace Lab1
 {
     public class ValidatorInputField
     {
-        public static int ValidateType(string obj, bool mustBeString)
+        public static void ValidateType(string obj, bool mustBeString)
         {
             if (mustBeString)
             {
                 foreach (char element in obj)
                 {
-                    if (!((element >= 'a' && element <='я') || (element >= 'А' && element <= 'Я') || (element >= 'a' && element <= 'z') || (element >= 'A' && element <= 'Z')))
+                    if (!Char.IsLetter(element))
                     {
-                        return 1;
+                        throw new Exception(" FIO have not a letters");
                     }
                 }
             }
             else
             {
-                string marks = "0123456789";
-                if (!(obj.Length == 1 && marks.Contains(obj) || obj.Equals("10")))
+                foreach (char element in obj)
                 {
-                    return 2;
+                    if (!Char.IsDigit(element) || element == '-' || element == '.')
+                    {
+                        throw new Exception(" marks must be a positive integer.");
+                    }
                 }
             }
-            return 0;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CommandLine;
+using System;
 
 namespace Lab1
 {
@@ -29,9 +30,9 @@ namespace Lab1
             {
                 options.OutputFile += "." + options.OutputFileFormat.ToLower();
             }
-            string validationResult = ValidationProgramArguments.Validation(options);
-            if (validationResult.Equals(""))
+            try
             {
+                ValidationProgramArguments.Validation(options);
                 List<string> strList = new List<string>();
                 List<Student> file = Reader.ReadFile(options.InputFile, out strList);
                 if (file != null && file.Count != 0)
@@ -48,24 +49,21 @@ namespace Lab1
                     }
                     else
                     {
-                        Logger.Log("Wrong output format");
+                        throw new Exception("Wrong output format");
                     }
                 }
                 else if (file == null)
                 {
-                    if (!(Logger.lastMessage.EndsWith("Wrong name of first 3 columns") || Logger.lastMessage.EndsWith(" not enouch columns")))
-                    {
-                        Logger.Log("File not found");
-                    }
+                    throw new Exception("File not found");                    
                 }
                 else
                 {
-                    Logger.Log("File don't have any correct line");
+                    throw new Exception("File don't have any correct line");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                Logger.Log(validationResult);
+                Logger.Log(ex.Message);
             }
         }
     }
