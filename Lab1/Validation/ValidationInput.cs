@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System;
+using Lab1.LogsAndExceptions;
 
 namespace Lab1
 {
@@ -11,11 +11,11 @@ namespace Lab1
             List<string> list = obj.Split(',').ToList();
             if (list.Count() < 3)
             {
-                throw new Exception(" not enouch columns");
+                throw new FieldNameException(" not enouch columns");
             }
             if ((!list[0].Equals("Фамилия") || !list[1].Equals("Имя") || !list[2].Equals("Отчество")) && (!list[0].Equals("Surname") || !list[1].Equals("Name") || !list[2].Equals("Middle Name")))
             {
-                throw new Exception(" Wrong name of first 3 columns");
+                throw new FieldNameException(" Wrong name of first 3 columns");
             }
         }
     }

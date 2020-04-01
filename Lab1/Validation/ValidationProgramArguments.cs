@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using System;
+using Lab1.LogsAndExceptions;
 
 namespace Lab1
 {
@@ -9,15 +9,15 @@ namespace Lab1
         {           
             if (!options.InputFile.EndsWith(".csv"))
             {
-                throw new Exception("Wrong format of input file");
+                throw new IOSystemException("Wrong format of input file");
             }
             else if (!options.OutputFileFormat.Equals("JSON") && !options.OutputFileFormat.Equals("Excel"))
             {
-                throw new Exception("Wrong format of output file");
+                throw new IOSystemException("Wrong format of output file");
             }
             else if (!File.Exists(options.InputFile))
             {
-                throw new Exception("Input file not exist");
+                throw new IOSystemException("Input file not exist");
             }
         }
     }

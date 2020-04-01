@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CommandLine;
 using System;
+using Lab1.LogsAndExceptions;
 
 namespace Lab1
 {
@@ -49,21 +50,37 @@ namespace Lab1
                     }
                     else
                     {
-                        throw new Exception("Wrong output format");
+                        throw new IOSystemException("Wrong output format");
                     }
                 }
                 else if (file == null)
                 {
-                    throw new Exception("File not found");                    
+                    throw new IOSystemException("File not found");                    
                 }
                 else
                 {
-                    throw new Exception("File don't have any correct line.");
+                    throw new IOSystemException("File don't have any correct line.");
                 }
+            }
+            catch (IOSystemException ex)
+            {
+                Logger.Log("Input/Output System exception: " + ex.Message);
+            }
+            catch (FieldNameException ex)
+            {
+                Logger.Log("Field Name Exception: " + ex.Message);
+            }
+            catch (FIOFieldException ex)
+            {
+                Logger.Log("FIO Exception: " + ex.Message);
+            }
+            catch (MarkFieldException ex)
+            {
+                Logger.Log("Mark Exception: " + ex.Message);
             }
             catch (Exception ex)
             {
-                Logger.Log(options.InputFile + ". " + ex.Message);
+                Logger.Log("Unexeptable Exception:" + ex.Message);
             }
         }
     }

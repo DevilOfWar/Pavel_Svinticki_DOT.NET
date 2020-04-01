@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Lab1.LogsAndExceptions;
 
 namespace Lab1
 {
@@ -25,16 +26,9 @@ namespace Lab1
                             List<string> strList = str.Split(new char[] { ',', ';' }).ToList();
                             if (firstString)
                             {
-                                try
-                                {
-                                    ValidationInput.Validate(str);
-                                    firstString = false;
-                                    columnName = strList;
-                                }
-                                catch (Exception ex)
-                                {
-                                    Logger.Log(fileName + " " + index + " " + ex.Message);
-                                }
+                                ValidationInput.Validate(str);
+                                firstString = false;
+                                columnName = strList;
                             }
                             else
                             {
@@ -42,50 +36,58 @@ namespace Lab1
                                 if (strList.Count() >= 3)
                                 {
                                     bool errorFlag = false;
-                                    try
+                                    ValidatorInputField.ValidateType(strList[1], true);
+                                    newStudent.Name = strList[1];
+                                    ValidatorInputField.ValidateType(strList[0], true);
+                                    newStudent.SurName = strList[0];
+                                    ValidatorInputField.ValidateType(strList[2], true);
+                                    newStudent.MiddleName = strList[2];
+                                    if (strList.Count() > columnName.Count())
                                     {
-                                        ValidatorInputField.ValidateType(strList[1], true);
-                                        newStudent.Name = strList[1];
-                                        ValidatorInputField.ValidateType(strList[0], true);
-                                        newStudent.SurName = strList[0];
-                                        ValidatorInputField.ValidateType(strList[2], true);
-                                        newStudent.MiddleName = strList[2];
-                                        if (strList.Count() > columnName.Count())
-                                        {
-                                            throw new Exception(" " + index + " line have too many marks.");
-                                        }
-                                        else if (strList.Count() < columnName.Count())
-                                        {
-                                            throw new Exception(" " + index + " line have too low marks.");
-                                        }
-                                        else
-                                        {
-                                            newStudent.Marks = new List<double>();
-                                            for (int indexList = 3; indexList < strList.Count() && !errorFlag; indexList++)
-                                            {
-                                                ValidatorInputField.ValidateType(strList[indexList], false);
-                                                newStudent.Marks.Add(Convert.ToInt16(strList[indexList]));
-                                            }
-                                            list.Add(newStudent);
-                                        }
+                                        throw new MarkFieldException(" " + index + " line have too many marks.");
                                     }
-                                    catch (Exception ex)
+                                    else if (strList.Count() < columnName.Count())
                                     {
-                                        Logger.Log(fileName + " " + index + " " + ex.Message);
+                                        throw new MarkFieldException(" " + index + " line have too low marks.");
+                                    }
+                                    else
+                                    {
+                                        newStudent.Marks = new List<double>();
+                                        for (int indexList = 3; indexList < strList.Count() && !errorFlag; indexList++)
+                                        {
+                                            ValidatorInputField.ValidateType(strList[indexList], false);
+                                            newStudent.Marks.Add(Convert.ToInt16(strList[indexList]));
+                                        }
+                                        list.Add(newStudent);
                                     }
                                 }
                                 else
                                 {
-                                    Logger.Log(fileName + " " + index + " line have too low count of fields: not full FIO.");
+                                    throw new FIOFieldException(fileName + " " + index + " line have too low count of fields: not full FIO.");
                                 }
                             }
                             index++;
                         }
                         return list;
                     }
+                    catch (MarkFieldException ex)
+                    {
+                        Logger.Log("Mark Exception: " + ex.Message);
+                        return null;
+                    }
+                    catch (FieldNameException ex)
+                    {
+                        Logger.Log("Field Name Exception: " + ex.Message);
+                        return null;
+                    }
+                    catch (FIOFieldException ex)
+                    {
+                        Logger.Log("FIO Exception: " + ex.Message);
+                        return null;
+                    }
                     catch (Exception ex)
                     {
-                        Logger.Log(fileName + " " + ex.Message);
+                        Logger.Log("Unexceptable Exception: " + ex.Message);
                         return null;
                     }
                 }

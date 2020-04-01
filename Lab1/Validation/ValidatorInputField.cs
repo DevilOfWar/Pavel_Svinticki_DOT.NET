@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Lab1.LogsAndExceptions;
 
 namespace Lab1
 {
@@ -10,9 +10,9 @@ namespace Lab1
             {
                 foreach (char element in obj)
                 {
-                    if (!Char.IsLetter(element))
+                    if (!char.IsLetter(element))
                     {
-                        throw new Exception(" FIO have not a letters");
+                        throw new FIOFieldException(" FIO have not a letters");
                     }
                 }
             }
@@ -20,14 +20,14 @@ namespace Lab1
             {
                 foreach (char element in obj)
                 {
-                    if (!Char.IsDigit(element) || element == '-' || element == '.')
+                    if (!char.IsDigit(element) || element == '-' || element == '.')
                     {
-                        throw new Exception(" marks must be a positive integer.");
+                        throw new MarkFieldException(" marks must be a positive integer.");
                     }
                 }
                 if (obj == "" || obj == null)
                 {
-                    throw new Exception(" marks can't be emtry");
+                    throw new MarkFieldException(" marks can't be emtry");
                 }
             }
         }
